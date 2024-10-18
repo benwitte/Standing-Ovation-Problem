@@ -1,0 +1,209 @@
+[gd_scene load_steps=7 format=3 uid="uid://cupfevlwjgrje"]
+
+[ext_resource type="Script" path="res://playgrounds/test_arena.gd" id="1_clyts"]
+[ext_resource type="PackedScene" uid="uid://dhtsl7i5lnxar" path="res://agent/agent.tscn" id="2_0vi3s"]
+[ext_resource type="Script" path="res://agent/agents_behavior.gd" id="2_3xc7o"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bfqdb"]
+
+[sub_resource type="HeightMapShape3D" id="HeightMapShape3D_tx60m"]
+map_width = 20
+map_depth = 20
+map_data = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lftnw"]
+size = Vector2(20, 20)
+
+[node name="test_arena" type="Node3D"]
+script = ExtResource("1_clyts")
+
+[node name="ground" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_bfqdb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ground"]
+shape = SubResource("HeightMapShape3D_tx60m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ground"]
+mesh = SubResource("PlaneMesh_lftnw")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.739819, 0.672806, 0, -0.672806, 0.739819, 0, 7.77396, 12.7497)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 5, 0)
+
+[node name="agents" type="Node" parent="."]
+script = ExtResource("2_3xc7o")
+
+[node name="row_0" type="Node" parent="agents"]
+
+[node name="agent0" parent="agents/row_0" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, 6)
+
+[node name="agent1" parent="agents/row_0" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 6)
+
+[node name="agent2" parent="agents/row_0" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 6)
+
+[node name="agent3" parent="agents/row_0" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 6)
+
+[node name="agent4" parent="agents/row_0" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
+
+[node name="agent5" parent="agents/row_0" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 6)
+
+[node name="agent6" parent="agents/row_0" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 6)
+
+[node name="agent7" parent="agents/row_0" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 6)
+
+[node name="agent8" parent="agents/row_0" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 6)
+
+[node name="row_1" type="Node" parent="agents"]
+
+[node name="agent0" parent="agents/row_1" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, 4)
+
+[node name="agent1" parent="agents/row_1" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 4)
+
+[node name="agent2" parent="agents/row_1" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 4)
+
+[node name="agent3" parent="agents/row_1" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 4)
+
+[node name="agent4" parent="agents/row_1" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4)
+
+[node name="agent5" parent="agents/row_1" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 4)
+
+[node name="agent6" parent="agents/row_1" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 4)
+
+[node name="agent7" parent="agents/row_1" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 4)
+
+[node name="agent8" parent="agents/row_1" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 4)
+
+[node name="row_2" type="Node" parent="agents"]
+
+[node name="agent0" parent="agents/row_2" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, 2)
+
+[node name="agent1" parent="agents/row_2" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 2)
+
+[node name="agent2" parent="agents/row_2" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 2)
+
+[node name="agent3" parent="agents/row_2" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2)
+
+[node name="agent4" parent="agents/row_2" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
+
+[node name="agent5" parent="agents/row_2" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 2)
+
+[node name="agent6" parent="agents/row_2" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 2)
+
+[node name="agent7" parent="agents/row_2" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 2)
+
+[node name="agent8" parent="agents/row_2" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 2)
+
+[node name="row_3" type="Node" parent="agents"]
+
+[node name="agent0" parent="agents/row_3" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, 0)
+
+[node name="agent1" parent="agents/row_3" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
+
+[node name="agent2" parent="agents/row_3" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 0)
+
+[node name="agent3" parent="agents/row_3" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)
+
+[node name="agent4" parent="agents/row_3" instance=ExtResource("2_0vi3s")]
+
+[node name="agent5" parent="agents/row_3" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
+
+[node name="agent6" parent="agents/row_3" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
+
+[node name="agent7" parent="agents/row_3" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 0)
+
+[node name="agent8" parent="agents/row_3" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 0)
+
+[node name="row_4" type="Node" parent="agents"]
+
+[node name="agent0" parent="agents/row_4" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, -2)
+
+[node name="agent1" parent="agents/row_4" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -2)
+
+[node name="agent2" parent="agents/row_4" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, -2)
+
+[node name="agent3" parent="agents/row_4" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -2)
+
+[node name="agent4" parent="agents/row_4" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2)
+
+[node name="agent5" parent="agents/row_4" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
+
+[node name="agent6" parent="agents/row_4" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -2)
+
+[node name="agent7" parent="agents/row_4" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, -2)
+
+[node name="agent8" parent="agents/row_4" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, -2)
+
+[node name="row_5" type="Node" parent="agents"]
+
+[node name="agent0" parent="agents/row_5" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, -4)
+
+[node name="agent1" parent="agents/row_5" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -4)
+
+[node name="agent2" parent="agents/row_5" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, -4)
+
+[node name="agent3" parent="agents/row_5" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -4)
+
+[node name="agent4" parent="agents/row_5" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -4)
+
+[node name="agent5" parent="agents/row_5" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -4)
+
+[node name="agent6" parent="agents/row_5" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -4)
+
+[node name="agent7" parent="agents/row_5" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, -4)
+
+[node name="agent8" parent="agents/row_5" instance=ExtResource("2_0vi3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, -4)

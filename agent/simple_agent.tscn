@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7gwqjbvcgalh"]
+
+[ext_resource type="Script" path="res://agent/simple_agent_behavior.gd" id="1_tunr4"]
+[ext_resource type="Material" uid="uid://cr2aifhcdq2x5" path="res://agent/red_mat.tres" id="2_v0o51"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_luj3p"]
+material = ExtResource("2_v0o51")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xcvpo"]
+
+[node name="simple_agent" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_tunr4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_luj3p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_xcvpo")

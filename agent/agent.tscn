@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://dhtsl7i5lnxar"]
+
+[ext_resource type="Script" path="res://agent/agent_behavior.gd" id="1_nprnf"]
+[ext_resource type="Script" path="res://agent/get_input.gd" id="2_oas0f"]
+[ext_resource type="Material" uid="uid://cr2aifhcdq2x5" path="res://agent/red_mat.tres" id="2_wwjqp"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lg3rf"]
+material = ExtResource("2_wwjqp")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ktovc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s8aj1"]
+albedo_color = Color(0, 0.0166669, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_b1jdc"]
+material = SubResource("StandardMaterial3D_s8aj1")
+radius = 0.1
+height = 0.5
+
+[node name="agent" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_nprnf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_lg3rf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_ktovc")
+
+[node name="input" type="Node" parent="."]
+script = ExtResource("2_oas0f")
+
+[node name="fov" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.752684)
+monitorable = false
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="fov"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+depth = 2.0
+polygon = PackedVector2Array(-18, 12, 18, 12, 0, 0)
+
+[node name="vision_cast" type="RayCast3D" parent="fov"]
+target_position = Vector3(0, -1, 100)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.563623, 0.479916)
+mesh = SubResource("CapsuleMesh_b1jdc")
+
+[connection signal="area_entered" from="fov" to="." method="_on_fov_area_entered"]
+[connection signal="body_entered" from="fov" to="." method="_on_fov_body_entered"]
