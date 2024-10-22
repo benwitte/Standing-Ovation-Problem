@@ -24,10 +24,10 @@ func _ready() -> void:
 		mesh.set_surface_override_material(0, green)
 
 func _process(delta: float) -> void:
-	which_agents_standing()
+	#which_agents_standing()
 	await get_tree().process_frame
 	while j < 1:
-		print(funnel_input)
+		#print(funnel_input)
 		j+=1
 
 
@@ -51,17 +51,20 @@ func _process(delta: float) -> void:
 
 
 func _on_fov_body_entered(body: CharacterBody3D) -> void:
+	#print(body.get_parent())
 	players_in_sight.append(body)
+	if body.is_standing == true:
+		print("true")
 	pass # Replace with function body.
 	
 	
 
 func which_agents_standing():
 	for i in players_in_sight:
-		print(i.get_child(0))
+		pass
 	#		"<StandardMaterial3D#-9223372008987818739>" is identifier for green in tiny test arena
-		if str(i.get_child(0).get_active_material(0)) == "<StandardMaterial3D#-9223372008987818739>":
-			funnel_input.append(1.0)
-
-		else:
-			funnel_input.append(.0)
+		#if str(i.get_child(0).get_active_material(0)) == "<StandardMaterial3D#-9223372008987818739>":
+			#funnel_input.append(1.0)
+#
+		#else:
+			#funnel_input.append(.0)

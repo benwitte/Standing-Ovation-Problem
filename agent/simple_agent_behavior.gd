@@ -12,6 +12,9 @@ var standing_threshold: float = .5
 
 var is_standing: bool = false
 
+signal standing_signal
+#(global_location, standing_tf: float)
+
 var green: Material = preload("res://agent/green_mat.tres")
 var red: Material = preload("res://agent/red_mat.tres")
 
@@ -22,7 +25,14 @@ func _ready() -> void:
 	agent_response()
 	if is_standing == true:
 		mesh.set_surface_override_material(0, green)
-	print(mesh.get_active_material(0))
+		standing_signal.emit()
+		#(global_position, 1)
+		#print(str(global_position) + ": true")
+	else:
+		mesh.set_surface_override_material(0, red)
+		#standing_signal.emit(global_position, 0)
+		#print(str(global_position) + ": false")
+
 
 
 func calculate_error():

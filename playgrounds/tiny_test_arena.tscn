@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvvj0nqgw8kpe"]
+[gd_scene load_steps=6 format=3 uid="uid://bvvj0nqgw8kpe"]
 
 [ext_resource type="PackedScene" uid="uid://c7gwqjbvcgalh" path="res://agent/simple_agent.tscn" id="1_4uoeb"]
 [ext_resource type="PackedScene" uid="uid://dhtsl7i5lnxar" path="res://agent/agent.tscn" id="1_dne8s"]
+[ext_resource type="Script" path="res://playgrounds/dictionary_node.gd" id="1_enbix"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fi0tr"]
 size = Vector2(20, 20)
@@ -24,100 +25,105 @@ mesh = SubResource("PlaneMesh_fi0tr")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("HeightMapShape3D_jpc5a")
 
-[node name="simple_agent" parent="." instance=ExtResource("1_4uoeb")]
+[node name="dictionary_node" type="Node" parent="."]
+script = ExtResource("1_enbix")
+
+[node name="simple_agent" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 4)
 
-[node name="simple_agent2" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent2" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 4)
 
-[node name="simple_agent3" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent3" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 4)
 
-[node name="simple_agent4" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent4" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4)
 
-[node name="simple_agent5" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent5" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 4)
 
-[node name="simple_agent6" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent6" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 4)
 
-[node name="simple_agent7" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent7" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 4)
 
-[node name="simple_agent8" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent8" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 4)
 
-[node name="simple_agent9" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent9" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 2)
 
-[node name="simple_agent10" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent10" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 2)
 
-[node name="simple_agent11" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent11" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2)
 
-[node name="simple_agent12" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent12" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
 
-[node name="simple_agent13" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent13" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 2)
 
-[node name="simple_agent14" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent14" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 2)
 
-[node name="simple_agent15" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent15" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 2)
 
-[node name="simple_agent16" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent16" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 2)
 
-[node name="simple_agent17" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent17" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
 
-[node name="simple_agent18" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent18" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 0)
 
-[node name="simple_agent19" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent19" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)
 
-[node name="simple_agent20" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent20" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 
-[node name="simple_agent21" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent21" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
 
-[node name="simple_agent22" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent22" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
 
-[node name="simple_agent23" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent23" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 0)
 
-[node name="simple_agent24" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent24" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 0)
 
-[node name="simple_agent25" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent25" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -2)
 
-[node name="simple_agent26" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent26" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, -2)
 
-[node name="simple_agent27" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent27" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -2)
 
-[node name="simple_agent28" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent28" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2)
 
-[node name="simple_agent29" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent29" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
 
-[node name="simple_agent30" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent30" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -2)
 
-[node name="simple_agent31" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent31" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, -2)
 
-[node name="simple_agent32" parent="." instance=ExtResource("1_4uoeb")]
+[node name="simple_agent32" parent="dictionary_node" instance=ExtResource("1_4uoeb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, -2)
 
-[node name="agent" parent="." instance=ExtResource("1_dne8s")]
+[node name="agent" parent="dictionary_node" instance=ExtResource("1_dne8s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -4)
+
+[connection signal="standing_signal" from="dictionary_node/simple_agent" to="dictionary_node" method="_on_simple_agent_standing_signal"]
