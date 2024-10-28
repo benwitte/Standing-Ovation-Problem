@@ -1,7 +1,6 @@
 extends Node
 class_name Agent_Dictionary
 
-var agents_array_dicts: Array = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	

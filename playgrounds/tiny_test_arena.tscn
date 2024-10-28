@@ -125,5 +125,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, -2)
 
 [node name="agent" parent="dictionary_node" instance=ExtResource("1_dne8s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -4)
-
-[connection signal="standing_signal" from="dictionary_node/simple_agent" to="dictionary_node" method="_on_simple_agent_standing_signal"]
