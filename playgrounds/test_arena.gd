@@ -1,11 +1,6 @@
 extends Node3D
 
-var agent_path := preload("res://agent/agent.tscn")
 
-var agents_array: Array = []
-var agents_row: Array = []
-
-var base_position : Vector3 = Vector3(0, 1, 0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

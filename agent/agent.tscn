@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dhtsl7i5lnxar"]
+[gd_scene load_steps=13 format=3 uid="uid://dhtsl7i5lnxar"]
 
 [ext_resource type="Script" path="res://agent/agent_behavior.gd" id="1_nprnf"]
 [ext_resource type="Script" path="res://agent/get_input.gd" id="2_oas0f"]
@@ -25,6 +25,17 @@ material = SubResource("StandardMaterial3D_s8aj1")
 radius = 0.1
 height = 0.5
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_c1rw1"]
+size = Vector3(6, 2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gy6kv"]
+transparency = 1
+albedo_color = Color(0, 1, 1, 0.301961)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a2nqs"]
+material = SubResource("StandardMaterial3D_gy6kv")
+size = Vector3(6, 2, 1)
+
 [node name="agent" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_nprnf")
@@ -40,26 +51,36 @@ script = ExtResource("2_oas0f")
 
 [node name="fov" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.752684)
+visible = false
 monitorable = false
 
-[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="fov"]
+[node name="fov_collision" type="CollisionPolygon3D" parent="fov"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 depth = 2.0
 polygon = PackedVector2Array(-18, 12, 18, 12, 0, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="fov/CollisionPolygon3D"]
+[node name="fov_visual" type="MeshInstance3D" parent="fov/fov_collision"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 6, 0)
 mesh = SubResource("PrismMesh_0mdxc")
 
 [node name="vision_cast" type="RayCast3D" parent="fov"]
 target_position = Vector3(0, -1, 100)
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="nose" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.563623, 0.479916)
 mesh = SubResource("CapsuleMesh_b1jdc")
 
 [node name="Timer" type="Timer" parent="."]
 
-[connection signal="area_entered" from="fov" to="." method="_on_fov_area_entered"]
+[node name="neighbors" type="Area3D" parent="."]
+visible = false
+
+[node name="neighbors_collision" type="CollisionShape3D" parent="neighbors"]
+shape = SubResource("BoxShape3D_c1rw1")
+
+[node name="neighbors_visual" type="MeshInstance3D" parent="neighbors/neighbors_collision"]
+mesh = SubResource("BoxMesh_a2nqs")
+
 [connection signal="body_entered" from="fov" to="." method="_on_fov_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="neighbors" to="." method="_on_neighbors_body_entered"]
