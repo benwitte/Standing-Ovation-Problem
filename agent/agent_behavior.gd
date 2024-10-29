@@ -9,6 +9,7 @@ extends CharacterBody3D
 @onready var timer: Timer = $Timer
 
 @onready var collision_polygon_3d: CollisionPolygon3D = $fov/CollisionPolygon3D
+@onready var mesh_instance_3d: MeshInstance3D = $fov/CollisionPolygon3D/MeshInstance3D
 
 
 var agents_in_sight: Array = []
@@ -19,6 +20,9 @@ var visible_agents: Array
 
 # length of field of view of the CollisionPolygon3D
 var fov_distance: float = 12.0
+
+# maximum distance any agent in range can be
+var max_distance: float
 
 #var agent_dict: Dictionary
 
@@ -34,6 +38,11 @@ func _ready() -> void:
 	
 	if agent_input.is_standing == true:
 		mesh.set_surface_override_material(0, green)
+	
+	# set max distance - doing this manually, so will need to change if I change
+	# the size of the CollisionPolygon3D
+	# pythag theorum to get furthest distance
+	max_distance = sqrt(18**2 + 12**2)
 
 	timer.start()
 
@@ -56,6 +65,11 @@ func _on_fov_body_entered(body: CharacterBody3D) -> void:
 func which_agents_standing():
 	for i in agents_in_sight:
 		var temp: Dictionary = create_dict(i)
+		#temp.funnel_weight = funnel_influence(float(temp.distance))
+		#print("distance type: " + str(typeof(temp.distance)))
+		#print("max_distance type: " + str(typeof(max_distance)))
+		#print("temp funnel_weight type: " + str(typeof(temp.funnel_weight)))
+
 		agents_array_of_dicts.append(temp)
 	#		"<StandardMaterial3D#-9223372008987818739>" is identifier for green in tiny test arena
 		#if str(i.get_child(0).get_active_material(0)) == "<StandardMaterial3D#-9223372008987818739>":
@@ -65,11 +79,14 @@ func which_agents_standing():
 			#funnel_input.append(.0)
 
 func create_dict(body):
+	var temp_distance: float = self.global_transform.origin.distance_to(body.global_transform.origin)
 	var agent_dict: Dictionary = {"agent": body, 
 	"global_position": body.global_position, 
 	"is_standing": body.is_standing,
-	"distance": self.global_transform.origin.distance_to(body.global_transform.origin),
-	"visibility": 0}
+	"distance": temp_distance,
+	"visibility": 0,
+	"funnel_weight": funnel_influence(temp_distance)}
+		#self.global_transform.origin.distance_to(body.global_transform.origin)/max_distance}
 	return agent_dict
 
 func visibility_list():
@@ -86,8 +103,9 @@ func update_standing():
 func _on_timer_timeout() -> void:
 	update_standing() 
 
-#func funnel_influence():
-	
+func funnel_influence(distance):
+	var funnel_weight: float = 0.01 + (1.0-.01) * (1.0 - (distance -2.0)/(max_distance - 2.0))
+	return funnel_weight
 
 
 ## Function to check line of sight
