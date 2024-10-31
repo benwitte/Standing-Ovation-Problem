@@ -4,7 +4,7 @@ extends CharacterBody3D
 
 var error: float
 
-var performance_quality: float = .5
+var performance_quality: float = .7
 
 var performance_rating: float
 

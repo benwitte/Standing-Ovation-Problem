@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cupfevlwjgrje"]
+[gd_scene load_steps=7 format=3 uid="uid://cupfevlwjgrje"]
 
 [ext_resource type="Script" path="res://playgrounds/test_arena.gd" id="1_clyts"]
 [ext_resource type="PackedScene" uid="uid://dhtsl7i5lnxar" path="res://agent/agent.tscn" id="2_0vi3s"]
+[ext_resource type="PackedScene" uid="uid://danip1arldpqh" path="res://playgrounds/performer.tscn" id="3_fe8hr"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bfqdb"]
 
@@ -248,3 +249,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, -8)
 
 [node name="agent71" parent="." instance=ExtResource("2_0vi3s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, -8)
+
+[node name="agent" parent="." instance=ExtResource("2_0vi3s")]
+
+[node name="performer" parent="." instance=ExtResource("3_fe8hr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 9)

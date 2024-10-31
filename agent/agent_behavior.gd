@@ -8,11 +8,11 @@ extends CharacterBody3D
 
 @onready var timer: Timer = $Timer
 
-@onready var neighbors_collision: CollisionShape3D = $neighbors/neighbors_collision
-@onready var neighbors_visual: MeshInstance3D = $neighbors/neighbors_collision/neighbors_visual
-
-@onready var fov_collision: CollisionPolygon3D = $fov/fov_collision
-@onready var fov_visual: MeshInstance3D = $fov/fov_collision/fov_visual
+#@onready var neighbors_collision: CollisionShape3D = $neighbors/neighbors_collision
+#@onready var neighbors_visual: MeshInstance3D = $neighbors/neighbors_collision/neighbors_visual
+#
+#@onready var fov_collision: CollisionPolygon3D = $fov/fov_collision
+#@onready var fov_visual: MeshInstance3D = $fov/fov_collision/fov_visual
 
 var agents_in_sight: Array = []
 
@@ -29,8 +29,9 @@ var neighbors_array_of_dicts: Array
 # length of field of view of the CollisionPolygon3D
 var fov_distance: float = 12.0
 
-# maximum distance any agent in range can be
+# maximum distance any agent in funnel influence range
 var max_distance: float
+
 
 var neighbor_weight: float
 
@@ -58,8 +59,15 @@ var social_pressure_threshold = randf_range(0.2, 0.8)
 
 var changed_status: bool
 
+var decay_rate: float = .01
+
+var performance_with_decay: float
+
+var seconds_passed: float = 0
+
 func _ready() -> void:
-	neighbor_weight = randf_range(0.3, 0.7)	
+	neighbor_weight = randf_range(0.3, 0.7)
+	
 
 	
 	# set max distance - doing this manually, so will need to change if I change
@@ -67,10 +75,14 @@ func _ready() -> void:
 	# pythag theorum to get furthest distance
 	max_distance = sqrt(18**2 + 12**2)
 	
+	performance_with_decay = agent_input.performance_rating
+	
+	
+	
 	await get_tree().process_frame
 	which_agents_standing()
 	which_neighbors_standing()
-	print("standing? " + str(agent_input.is_standing))
+	#print("standing? " + str(agent_input.is_standing))
 
 	timer.start()
 
@@ -92,6 +104,8 @@ func _process(_delta: float) -> void:
 	pass # Replace with function body.
 
 #add_collision_exception_with(agent) 
+
+
 
 
 func _on_fov_body_entered(body) -> void:
@@ -119,6 +133,7 @@ func which_agents_standing():
 	for i in agents_in_sight:
 		var temp: Dictionary = create_dict(i)
 		agents_array_of_dicts.append(temp)
+
 
 
 ## FUTURE TO DO:
@@ -157,44 +172,65 @@ func update_standing(array):
 		i.is_standing = i.agent.agent_input.is_standing
 
 func _on_timer_timeout() -> void:
-	funnel_pressure = calc_funnel_pressure()
-	#print("funnel_pressure: " + str(funnel_pressure))
-	neighbor_pressure = calc_neighbor_pressure()
-	#print("neighbor_pressure: " + str(neighbor_pressure))
-	#print("neighbor_weight: " + str(neighbor_weight))
-	total_stand_pressure = funnel_pressure + neighbor_weight * neighbor_pressure
-	total_sit_pressure = 1 - total_stand_pressure
-	#print("total_stand_pressure: " + str(total_stand_pressure))
-	#print("total_sit_pressure: " + str(total_sit_pressure))
-	#print("pressure threshold: " + str(social_pressure_threshold))
-	update_standing(agents_array_of_dicts)
-	update_standing(neighbors_array_of_dicts)
-	update_agent_status()
-	#print("standing? " + str(agent_input.is_standing))
+	seconds_passed += 1.0
+	if performance_with_decay > 0:
+		performance_with_decay = decay(performance_with_decay, seconds_passed)
+		update_agent_status()
+	
+
+		funnel_pressure = calc_funnel_pressure()
+		#print("funnel_pressure: " + str(funnel_pressure))
+		neighbor_pressure = calc_neighbor_pressure()
+		#print("neighbor_pressure: " + str(neighbor_pressure))
+		#print("neighbor_weight: " + str(neighbor_weight))
+		if agents_array_of_dicts.size() == 0:
+			total_stand_pressure = neighbor_weight * neighbor_pressure
+		else:
+			total_stand_pressure = funnel_pressure + neighbor_weight * neighbor_pressure
+		
+		total_sit_pressure = 1 - total_stand_pressure
+		#print("total_stand_pressure: " + str(total_stand_pressure))
+		#print("total_sit_pressure: " + str(total_sit_pressure))
+		#print("pressure threshold: " + str(social_pressure_threshold))
+		update_standing(agents_array_of_dicts)
+		update_standing(neighbors_array_of_dicts)
+		#print("performance rating: " + str(performance_with_decay))
+	else:
+		agent_input.is_standing == false
+		
+
+
+func decay(perf, n):
+	return perf - decay_rate * n
 
 # Function to update standing state based on pressures
 func update_state():
-	# Determine priorities with standard conditionals
-	var stand_priority: int = 0
-	var sit_priority: int = 0
-	var comparison: int = 0
-
-	if total_stand_pressure > social_pressure_threshold:
-		stand_priority = 1
-	if total_sit_pressure > social_pressure_threshold:
-		sit_priority = 1
-	if total_stand_pressure > total_sit_pressure:
-		comparison = 1
+	if performance_with_decay < 0:
+		return false
+	else:
 		
-	var match_array: Array = [stand_priority, sit_priority, comparison]
+		# Determine priorities with standard conditionals
+		var stand_priority: int = 0
+		var sit_priority: int = 0
+		var comparison: int = 0
+		#var time_decay: int = 1
+
+		if total_stand_pressure > social_pressure_threshold:
+			stand_priority = 1
+		if total_sit_pressure > social_pressure_threshold:
+			sit_priority = 1
+		if total_stand_pressure > total_sit_pressure:
+			comparison = 1
+		
+		var match_array: Array = [stand_priority, sit_priority, comparison]
 
 	# Determine the new state
-	match match_array:
-		[1, 0, _]: return true  # Only stand_pressure above threshold
-		[0, 1, _]: return false   # Only sit_pressure above threshold
-		[1, 1, 1]: return true   # Both above threshold, stand_pressure > sit_pressure
-		[1, 1, 0]: return false   # Both above threshold, sit_pressure > stand_pressure
-		_: return agent_input.is_standing  # No change if no conditions met
+		match match_array:
+			[1, 0, _]: return true  # Only stand_pressure above threshold
+			[0, 1, _]: return false   # Only sit_pressure above threshold
+			[1, 1, 1]: return true   # Both above threshold, stand_pressure > sit_pressure
+			[1, 1, 0]: return false   # Both above threshold, sit_pressure > stand_pressure
+			_: return agent_input.is_standing  # No change if no conditions met
 
 # if status unchanged, do nothing. If true, stand. If false, sit
 func update_agent_status():
