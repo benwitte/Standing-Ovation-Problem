@@ -68,15 +68,12 @@ var seconds_passed: float = 0
 func _ready() -> void:
 	neighbor_weight = randf_range(0.3, 0.7)
 	
-
-	
 	# set max distance - doing this manually, so will need to change if I change
 	# the size of the CollisionPolygon3D
 	# pythag theorum to get furthest distance
 	max_distance = sqrt(18**2 + 12**2)
 	
 	performance_with_decay = agent_input.performance_rating
-	
 	
 	
 	await get_tree().process_frame
@@ -184,10 +181,10 @@ func _on_timer_timeout() -> void:
 		#print("neighbor_pressure: " + str(neighbor_pressure))
 		#print("neighbor_weight: " + str(neighbor_weight))
 		if agents_array_of_dicts.size() == 0:
-			total_stand_pressure = neighbor_weight * neighbor_pressure
+			total_stand_pressure = neighbor_weight * neighbor_pressure + agent_input.performer_influence
 		else:
-			total_stand_pressure = funnel_pressure + neighbor_weight * neighbor_pressure
-		
+			total_stand_pressure = funnel_pressure + neighbor_weight * neighbor_pressure + agent_input.performer_influence
+
 		total_sit_pressure = 1 - total_stand_pressure
 		#print("total_stand_pressure: " + str(total_stand_pressure))
 		#print("total_sit_pressure: " + str(total_sit_pressure))
@@ -196,7 +193,7 @@ func _on_timer_timeout() -> void:
 		update_standing(neighbors_array_of_dicts)
 		#print("performance rating: " + str(performance_with_decay))
 	else:
-		agent_input.is_standing == false
+		agent_input.is_standing = false
 		
 
 
@@ -257,9 +254,12 @@ func funnel_influence(distance):
 	
 func calc_funnel_pressure():
 	var temp: float = 0
-	for i in agents_array_of_dicts:
-		temp += int(i.is_standing) * i.funnel_weight
-	return temp/agents_array_of_dicts.size()
+	if agents_array_of_dicts.size() > 0:
+		for i in agents_array_of_dicts:
+			temp += int(i.is_standing) * i.funnel_weight
+		return temp/agents_array_of_dicts.size()
+	else:
+		return 0
 	
 func calc_neighbor_pressure():
 	var temp: float = 0
